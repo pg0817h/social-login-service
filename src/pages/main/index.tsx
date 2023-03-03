@@ -3,7 +3,7 @@ import SocialLoginService, { SocialLoginProviders } from '@/services/SocialLogin
 
 const Main = () => {
   const onClick = async (provider: SocialLoginProviders) => {
-    const service = new SocialLoginService(provider);
+    const service = new SocialLoginService({ provider });
     const resp = await service.login();
 
     alert(resp);
