@@ -32,43 +32,38 @@ class SocialLoginService {
     switch (provider) {
       case 'kakao': {
         const kakaoLogin = new KakaoLogin();
-        try{
-          const response = await kakaoLogin.login();
-          const {provider_id, profile: {user :{id,email}, scopes}} = response
-  
-          const result: SocialLoginResponse = {
-            providerId: provider_id,
-            provider: this.provider,
-            user: { id: id },
-            scopes: scopes,
-            email: email,
-          };
-          return result;
-        } catch(error){
-          return LoginErrors.LoginProviderError;
-        }
-       
+        const response = await kakaoLogin.login();
+        const {
+          provider_id,
+          profile: {
+            user: { id, email },
+            scopes,
+          },
+        } = response;
+
+        return {
+          providerId: provider_id,
+          provider: this.provider,
+          user: { id: id },
+          scopes: scopes,
+          email: email,
+        };
       }
       case 'naver': {
         const naverLogin = new NaverLogin();
-        
-        try {
-          const response = await naverLogin.login();
-          const {provider: {id}, profile: {user_name, scopes,email}} = response
-          const result: SocialLoginResponse = {
-            providerId: id,
-            provider: this.provider,
-            user: { id: user_name },
-            scopes: scopes,
-            email: email,
-          };
-          return result;
-        
-        } catch(error){
-          return LoginErrors.LoginProviderError;
-        }
-        
-      } 
+        const response = await naverLogin.login();
+        const {
+          provider: { id },
+          profile: { user_name, scopes, email },
+        } = response;
+        return {
+          providerId: id,
+          provider: this.provider,
+          user: { id: user_name },
+          scopes: scopes,
+          email: email,
+        };
+      }
       default:
         return LoginErrors.LoginProviderError;
     }

@@ -1,12 +1,23 @@
 import React from 'react';
-import SocialLoginService, { SocialLoginProviders } from '@/services/SocialLoginService';
+import SocialLoginService, {
+  SocialLoginProviders,
+  SocialLoginResponse,
+} from '@/services/SocialLoginService';
+
+function isSocialLoginResponse(resp: Awaited<ReturnType<SocialLoginService['login']>>): resp is SocialLoginResponse {
+  
+}
 
 const Main = () => {
   const onClick = async (provider: SocialLoginProviders) => {
     const service = new SocialLoginService({ provider });
     const resp = await service.login();
 
-    alert(resp);
+    if (isSocialLoginResponse(resp)) {
+      alert(resp);
+    } else {
+      alert('error');
+    }
   };
 
   return (
