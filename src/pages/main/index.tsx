@@ -1,11 +1,11 @@
-import React from 'react';
 import SocialLoginService, {
+  LoginErrors,
   SocialLoginProviders,
   SocialLoginResponse,
 } from '@/services/SocialLoginService';
 
 function isSocialLoginResponse(resp: Awaited<ReturnType<SocialLoginService['login']>>): resp is SocialLoginResponse {
-  
+  return !!(resp as SocialLoginResponse).providerId;
 }
 
 const Main = () => {
